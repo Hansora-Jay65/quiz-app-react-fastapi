@@ -1,0 +1,46 @@
+/* quizIndex.css */
+
+.quizindex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f9faff;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.quizindex-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  width: 400px;
+}
+
+.quizindex-card h1 {
+  margin-bottom: 10px;
+  font-size: 22px;
+  color: #333;
+}
+
+.quizindex-card p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.quizindex-card button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #667eea;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.quizindex-card button:hover {
+  background: #5563d6;
+}

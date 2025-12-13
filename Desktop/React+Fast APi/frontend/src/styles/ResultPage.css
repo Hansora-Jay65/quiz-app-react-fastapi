@@ -1,0 +1,91 @@
+.result-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.result-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.result-stats {
+  margin: 20px 0;
+  font-size: 1.1rem;
+}
+
+.correct {
+  color: green;
+  font-weight: bold;
+}
+
+.wrong {
+  color: red;
+  font-weight: bold;
+}
+
+.total {
+  color: #555;
+}
+
+.final-score {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: #222;
+}
+
+.final-score span {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.quiz-stats {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+  text-align: left;
+}
+
+.quiz-stats h4 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.quiz-stats p {
+  margin: 4px 0;
+  color: #444;
+}
+
+.stats-message {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  color: #777;
+}
+
+.btn-dashboard {
+  margin-top: 25px;
+  padding: 12px 25px;
+  font-size: 1rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-dashboard:hover {
+  background: #0056b3;
+}
+
+.error-text {
+  color: red;
+  font-weight: bold;
+  font-size: 1.1rem;
+}

@@ -1,0 +1,83 @@
+.update-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+.update-card {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 500px;
+}
+
+.update-card h1 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  text-align: center;
+  color: #2563eb;
+}
+
+.update-card label {
+  display: block;
+  margin: 10px 0 6px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.update-card select,
+.update-card input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.update-form h3 {
+  margin-top: 20px;
+  color: #111827;
+  font-size: 18px;
+}
+
+.answer-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.answer-row input[type="text"] {
+  flex: 1;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.update-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.update-btn:hover {
+  background: #1d4ed8;
+}

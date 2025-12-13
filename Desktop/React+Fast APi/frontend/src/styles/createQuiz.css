@@ -1,0 +1,77 @@
+/* createQuiz.css */
+
+.createquiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f0f4ff;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.createquiz-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 400px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.createquiz-card h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.createquiz-card label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.createquiz-card input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.createquiz-card input:focus {
+  border-color: #667eea;
+}
+
+.createquiz-card button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #667eea;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.createquiz-card button:hover {
+  background: #5563d6;
+}
+
+.success-msg {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .createquiz-container {
+    padding: 16px;
+  }
+
+  .createquiz-card {
+    width: 100%;
+    padding: 20px;
+  }
+}

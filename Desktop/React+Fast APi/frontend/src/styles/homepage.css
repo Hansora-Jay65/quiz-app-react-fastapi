@@ -1,0 +1,59 @@
+/* homepage.css */
+
+.homepage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4a90e2, #50c9c3);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+}
+
+.homepage-container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.homepage-title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.homepage-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.homepage-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn.primary {
+  background: #ffffff;
+  color: #4a90e2;
+}
+
+.btn.secondary {
+  background: #222;
+  color: #ffffff;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}

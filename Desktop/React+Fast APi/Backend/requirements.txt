@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+psycopg2-binary
+pydantic
+python-multipart
+PyPDF2
+openai
+requests
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv
+slowapi
+bleach
