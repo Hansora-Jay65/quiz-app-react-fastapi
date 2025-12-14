@@ -9,7 +9,7 @@ Since you're on Windows, here are the methods to set the environment variable:
 Open PowerShell and run:
 
 ```powershell
-$env:OPENAI_API_KEY="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"
+$env:OPENAI_API_KEY="YOUR_OPENAI_API_KEY_HERE"
 ```
 
 Then start your backend server in the SAME PowerShell window:
@@ -27,7 +27,7 @@ uvicorn app.main:app --reload
 Open Command Prompt (cmd) and run:
 
 ```cmd
-set OPENAI_API_KEY=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
+set OPENAI_API_KEY=YOUR_OPENAI_API_KEY_HERE
 ```
 
 Then start your backend server in the SAME Command Prompt window:
@@ -50,7 +50,7 @@ uvicorn app.main:app --reload
 4. Click **"Environment Variables"** button
 5. Under **"User variables"** (or "System variables" for all users), click **"New"**
 6. Variable name: `OPENAI_API_KEY`
-7. Variable value: `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`
+7. Variable value: `YOUR_OPENAI_API_KEY_HERE`
 8. Click **"OK"** on all dialogs
 9. **Restart your terminal/IDE** for changes to take effect
 
@@ -59,7 +59,7 @@ uvicorn app.main:app --reload
 Run PowerShell as Administrator and execute:
 
 ```powershell
-[System.Environment]::SetEnvironmentVariable('OPENAI_API_KEY', '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', 'User')
+[System.Environment]::SetEnvironmentVariable('OPENAI_API_KEY', 'YOUR_OPENAI_API_KEY_HERE', 'User')
 ```
 
 Then restart your terminal.
@@ -77,7 +77,7 @@ If you prefer using a `.env` file:
 
 2. Create a `.env` file in the `Backend` folder:
    ```
-   OPENAI_API_KEY=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
+   OPENAI_API_KEY=YOUR_OPENAI_API_KEY_HERE
    ```
 
 3. Update `Backend/app/services/PDF_MCQ_Services.py` to load from .env:
@@ -110,7 +110,7 @@ echo %OPENAI_API_KEY%
 1. Open PowerShell
 2. Run:
    ```powershell
-   $env:OPENAI_API_KEY="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"
+   $env:OPENAI_API_KEY="YOUR_OPENAI_API_KEY_HERE"
    ```
 3. Navigate to Backend folder:
    ```powershell

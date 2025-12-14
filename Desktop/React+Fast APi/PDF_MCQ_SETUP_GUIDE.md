@@ -41,19 +41,19 @@ Set the environment variable before running the server:
 **Windows (PowerShell):**
 
 ```powershell
-$env:OPENAI_API_KEY="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"
+$env:OPENAI_API_KEY="YOUR_OPENAI_API_KEY_HERE"
 ```
 
 **Windows (Command Prompt):**
 
 ```cmd
-set OPENAI_API_KEY=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
+set OPENAI_API_KEY=YOUR_OPENAI_API_KEY_HERE
 ```
 
 **Linux/Mac:**
 
 ```bash
-export OPENAI_API_KEY="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"
+export OPENAI_API_KEY="YOUR_OPENAI_API_KEY_HERE"
 ```
 
 #### Option B: Direct Configuration
@@ -61,7 +61,7 @@ export OPENAI_API_KEY="sk-proj-QMGJqjenhge7TGCdUiijVsU1jMoTnIIpwxKiTkQE2OJrlui5Q
 Edit `Backend/app/services/PDF_MCQ_Services.py` and replace:
 
 ```python
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY", "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"))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_API_KEY_HERE"))
 ```
 
 with:
