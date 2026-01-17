@@ -25,7 +25,7 @@ services:
   - type: web
     name: quiz-frontend
     env: static
-    plan: free
+    plan: starter
     buildCommand: "cd frontend && npm install && npm run build"
     staticPublishPath: frontend/dist
     envVars:
