@@ -22,9 +22,10 @@ services:
     healthCheckPath: /
     
   # React Frontend
-  - type: static
+  - type: web
     name: quiz-frontend
-    plan: starter
+    env: static
+    plan: free
     buildCommand: "cd \"Desktop/React+Fast APi/frontend\" && npm install && npm run build"
     staticPublishPath: "Desktop/React+Fast APi/frontend/dist"
     envVars:
