@@ -1,8 +1,9 @@
 services:
-  # FastAPI Backend
+  # FastAPI Backend - Free Web Service
   - type: web
     name: quiz-backend
     env: python
+    instanceType: free
     buildCommand: "pip install -r Backend/requirements.txt"
     startCommand: "uvicorn Backend.app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
@@ -26,10 +27,11 @@ services:
         value: "10"
     healthCheckPath: /
     
-  # React Frontend
+  # React Frontend - Free Static Site
   - type: web
     name: quiz-frontend
     env: static
+    instanceType: free
     buildCommand: "cd frontend && npm install && npm run build"
     staticPublishPath: frontend/dist
     envVars:
@@ -41,9 +43,10 @@ services:
         destination: /index.html
 
 databases:
-  # PostgreSQL Database
+  # PostgreSQL Database - Free Tier
   - name: quiz-db
     databaseName: quizapp
     user: quizapp_user
+    instanceType: free
     region: oregon
     ipAllowList: []  # Allow all IPs for development (restrict in production)

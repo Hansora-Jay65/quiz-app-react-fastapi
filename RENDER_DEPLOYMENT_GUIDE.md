@@ -19,6 +19,7 @@ git push origin main
 4. Connect your GitHub repository
 5. Select the `quiz-app-react-fastapi` repository
 6. Choose the "Python" environment
+7. **Important**: During setup, select "Free" instance type when prompted
 
 ### 3. Configure Environment Variables
 Add these environment variables in your Render dashboard:
@@ -39,7 +40,7 @@ Add these environment variables in your Render dashboard:
 2. Name: `quiz-db`
 3. Database Name: `quizapp`
 4. User: `quizapp_user`
-5. Plan: Starter
+5. Instance Type: **Free** (select this option)
 6. Region: Oregon (or closest to you)
 7. Click "Create Database"
 
