@@ -1,6 +1,6 @@
 services:
   # PostgreSQL Database
-  - type: psql
+  - type: postgres
     name: quiz-db
     databaseName: quizapp
     user: quizuser
