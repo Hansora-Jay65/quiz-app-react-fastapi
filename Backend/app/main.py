@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
 import logging
-from app.routers import (
+from .routers import (
     User_routers,
     Submission_routers,
     Question_routers,
