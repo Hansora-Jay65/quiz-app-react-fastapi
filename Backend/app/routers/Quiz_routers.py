@@ -8,7 +8,7 @@ from ..services.Quiz_Services import (
     delete_quiz,
 )
 from ..utils.validation import sanitize_quiz_title, sanitize_creator_name
-from ..rate_limiter import limiter
+from .rate_limiter import limiter
 
 router = APIRouter(prefix="/Quizzes", tags=["Quizzes"])
 

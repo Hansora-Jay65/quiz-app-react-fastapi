@@ -6,7 +6,7 @@ from ..services.Submission_Services import (
     create_submission,
     get_quiz_statistics,
 )
-from ..rate_limiter import limiter
+from .rate_limiter import limiter
 
 router = APIRouter(prefix="/Submissions", tags=["Submissions"])
 

@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, HTTPException, Request
 from ..models.User_Model import User
 from datetime import timedelta
-from ..rate_limiter import limiter
+from .rate_limiter import limiter
 
 router = APIRouter(prefix="/Users", tags=["Users"])
 

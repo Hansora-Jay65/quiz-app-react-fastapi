@@ -15,7 +15,7 @@ from ..services.Question_Services import (
     delete_question,
 )
 from ..utils.validation import validate_question_text
-from ..rate_limiter import limiter
+from .rate_limiter import limiter
 
 router = APIRouter(prefix="/Questions", tags=["Questions"])
 
