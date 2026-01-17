@@ -3,7 +3,7 @@ services:
   - type: web
     name: quiz-backend
     env: python
-    plan: free
+    plan: starter
     buildCommand: "pip install -r Backend/requirements.txt"
     startCommand: "uvicorn Backend.app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
@@ -31,7 +31,7 @@ services:
   - type: web
     name: quiz-frontend
     env: static
-    plan: free
+    plan: starter
     buildCommand: "cd frontend && npm install && npm run build"
     staticPublishPath: frontend/dist
     envVars:
@@ -47,6 +47,6 @@ databases:
   - name: quiz-db
     databaseName: quizapp
     user: quizapp_user
-    plan: free
+    plan: starter
     region: oregon
     ipAllowList: []  # Allow all IPs for development (restrict in production)
