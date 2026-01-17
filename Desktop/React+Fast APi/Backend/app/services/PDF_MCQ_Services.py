@@ -7,16 +7,32 @@ from typing import List, Dict
 from fastapi import HTTPException, UploadFile
 import PyPDF2
 import io
-import requests
+
+# Groq LangChain imports
+from langchain_groq import ChatGroq
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
 # AI Provider Configuration
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-HUGGINGFACE_API_KEY = os.getenv(
-    "HUGGINGFACE_API_KEY", ""
-)  # Optional - free tier works without key
-USE_AI_PROVIDER = os.getenv(
-    "AI_PROVIDER", "simple"
-)  # Options: "openai", "huggingface", "simple" - Default: "simple" (FREE, no API needed)
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+USE_AI_PROVIDER = os.getenv("AI_PROVIDER")  # Options: "groq", "simple" - Default: "groq"
+
+# Initialize Groq client if key is present
+_groq_llm = None
+if GROQ_API_KEY:
+    try:
+        _groq_llm = ChatGroq(
+            api_key=GROQ_API_KEY,
+            model="llama-3.3-70b-versatile",
+            temperature=0.7,
+            top_p=0.9
+        )
+        logging.info("Groq LLM initialized successfully")
+    except Exception as e:
+        logging.error(f"Failed to initialize Groq LLM: {e}")
+        _groq_llm = None
+else:
+    logging.warning("Groq API key not provided")
 
 
 def extract_text_from_pdf(pdf_file: UploadFile) -> str:
@@ -47,155 +63,98 @@ def extract_text_from_pdf(pdf_file: UploadFile) -> str:
         )
 
 
-def generate_mcqs_with_huggingface(text: str, num_questions: int = 5) -> List[Dict]:
-    """Generate MCQs using Hugging Face's free Inference API"""
-    try:
-        # Truncate text if too long
-        max_chars = 2000  # Hugging Face free tier has limits
-        if len(text) > max_chars:
-            text = text[:max_chars] + "..."
-
-        prompt = f"""Generate {num_questions} multiple choice questions from this text. Return ONLY valid JSON in this exact format:
-{{
-  "questions": [
-    {{
-      "question_text": "Question here",
-      "answers": [
-        {{"answer_text": "Option A", "is_correct": true}},
-        {{"answer_text": "Option B", "is_correct": false}},
-        {{"answer_text": "Option C", "is_correct": false}},
-        {{"answer_text": "Option D", "is_correct": false}}
-      ]
-    }}
-  ]
-}}
-
-Text: {text}"""
-
-        # Use Hugging Face Inference API (free tier)
-        API_URL = (
-            "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium"
-        )
-
-        # Try a better model for text generation
-        headers = {}
-        if HUGGINGFACE_API_KEY:
-            headers["Authorization"] = f"Bearer {HUGGINGFACE_API_KEY}"
-
-        # Use a model better suited for instruction following
-        payload = {
-            "inputs": prompt,
-            "parameters": {
-                "max_length": 1500,
-                "temperature": 0.7,
-                "return_full_text": False,
-            },
-        }
-
-        # Try using a better model - if it fails, fall back to simple generator
-        try:
-            response = requests.post(
-                "https://api-inference.huggingface.co/models/google/flan-t5-base",
-                headers=headers,
-                json=payload,
-                timeout=30,
-            )
-
-            if response.status_code == 200:
-                result = response.json()
-                # Hugging Face models may not return perfect JSON, so we'll use simple generator
-                # as fallback
-                pass
-        except:
-            pass
-
-        # Fall back to simple generator
+def generate_mcqs_with_groq(text: str, num_questions: int = 5) -> List[Dict]:
+    """Generate MCQs using Groq AI (Llama 3.3 70B)."""
+    if not _groq_llm:
+        logging.warning("Groq LLM not initialized, falling back to simple generator")
         return generate_mcqs_simple(text, num_questions)
 
-    except Exception as e:
-        logging.error(f"Hugging Face error: {str(e)}")
-        # Fall back to simple generator
-        return generate_mcqs_simple(text, num_questions)
-
-
-def generate_mcqs_with_openai(text: str, num_questions: int = 5) -> List[Dict]:
-    """Generate MCQs using OpenAI API (requires paid credits)"""
     try:
-        from openai import OpenAI
-
-        client = OpenAI(api_key=OPENAI_API_KEY)
-
-        if not OPENAI_API_KEY or len(OPENAI_API_KEY) < 20:
-            raise HTTPException(
-                status_code=500,
-                detail="OpenAI API key not configured.",
-            )
-
         max_chars = 12000
         if len(text) > max_chars:
             text = text[:max_chars] + "..."
 
-        prompt = f"""Based on the following text, generate {num_questions} multiple choice questions (MCQs) with 4 options each and mark the correct answer.
+        # Create prompt template for Groq
+        mcq_prompt = PromptTemplate(
+            input_variables=["context", "num_questions"],
+            template="""
+You are an expert educator creating diverse multiple-choice questions. Generate {num_questions} UNIQUE questions about the text below.
 
-Text content:
-{text}
+IMPORTANT: 
+- Each question must be DIFFERENT and cover different aspects
+- Vary question types (what, how, why, which, etc.)
+- Cover different topics from the text
+- Avoid repetition
 
-Please generate the questions in the following JSON format:
-{{
-  "questions": [
-    {{
-      "question_text": "Question text here",
-      "answers": [
-        {{"answer_text": "Option A", "is_correct": true}},
-        {{"answer_text": "Option B", "is_correct": false}},
-        {{"answer_text": "Option C", "is_correct": false}},
-        {{"answer_text": "Option D", "is_correct": false}}
-      ]
-    }}
-  ]
-}}
+Text:
+{context}
 
-Make sure:
-1. Each question has exactly 4 answer options
-2. Only one answer is marked as correct (is_correct: true)
-3. Questions are relevant to the text content
-4. Questions test understanding, not just memorization
-5. Return ONLY valid JSON, no additional text"""
+Generate {num_questions} distinct MCQs:
 
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are an expert at creating educational multiple choice questions from text content. Always return valid JSON format.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            temperature=0.7,
-            max_tokens=2000,
+## MCQ 1
+Question: [unique question 1]
+A) [option A]
+B) [option B]
+C) [option C]
+D) [option D]
+Correct Answer: [correct option]
+
+## MCQ 2
+Question: [unique question 2]
+A) [option A]
+B) [option B]
+C) [option C]
+D) [option D]
+Correct Answer: [correct option]
+
+## MCQ 3
+Question: [unique question 3]
+A) [option A]
+B) [option B]
+C) [option C]
+D) [option D]
+Correct Answer: [correct option]
+
+## MCQ 4
+Question: [unique question 4]
+A) [option A]
+B) [option B]
+C) [option C]
+D) [option D]
+Correct Answer: [correct option]
+
+## MCQ 5
+Question: [unique question 5]
+A) [option A]
+B) [option B]
+C) [option C]
+D) [option D]
+Correct Answer: [correct option]
+"""
         )
 
-        content = response.choices[0].message.content.strip()
+        # Create chain
+        mcq_chain = mcq_prompt | _groq_llm | StrOutputParser()
 
-        # Remove markdown code blocks
-        if content.startswith("```json"):
-            content = content[7:]
-        if content.startswith("```"):
-            content = content[3:]
-        if content.endswith("```"):
-            content = content[:-3]
-        content = content.strip()
+        # Generate MCQs
+        response = mcq_chain.invoke({
+            "context": text,
+            "num_questions": num_questions
+        }).strip()
 
-        result = json.loads(content)
-        if "questions" not in result:
-            raise HTTPException(
-                status_code=500, detail="Invalid response format from AI"
-            )
-        return result["questions"]
+        logging.info(f"Groq raw output:\n{response}")
+
+        # Parse the response
+        questions = parse_groq_output(response)
+
+        if not questions:
+            logging.warning("Groq parsing produced no questions, falling back to simple generator")
+            return generate_mcqs_simple(text, num_questions)
+
+        return questions
 
     except Exception as e:
-        logging.error(f"OpenAI error: {str(e)}")
-        # Fall back to simple generator
+        logging.error(f"Groq error: {str(e)}")
         return generate_mcqs_simple(text, num_questions)
 
 
@@ -203,7 +162,9 @@ def generate_mcqs_simple(text: str, num_questions: int = 5) -> List[Dict]:
     """Simple rule-based MCQ generator (FREE - no API needed)"""
     try:
         # Split text into sentences
+        print(text)
         sentences = re.split(r"[.!?]+", text)
+        print(sentences)
         sentences = [s.strip() for s in sentences if len(s.strip()) > 20]
 
         if len(sentences) < num_questions:
@@ -316,20 +277,16 @@ def generate_mcqs_simple(text: str, num_questions: int = 5) -> List[Dict]:
 
 
 def generate_mcqs_from_text(text: str, num_questions: int = 5) -> List[Dict]:
-    """Generate MCQ questions from text - tries multiple methods"""
+    """Generate MCQ questions from text - tries Groq first, then simple fallback"""
     try:
+        logging.info(f"AI provider: {USE_AI_PROVIDER}, Groq available: {_groq_llm is not None}")
+
         # Choose provider based on configuration
-        if USE_AI_PROVIDER == "openai" and OPENAI_API_KEY:
+        if USE_AI_PROVIDER == "groq" and _groq_llm:
             try:
-                return generate_mcqs_with_openai(text, num_questions)
+                return generate_mcqs_with_groq(text, num_questions)
             except:
-                logging.warning("OpenAI failed, falling back to simple generator")
-                return generate_mcqs_simple(text, num_questions)
-        elif USE_AI_PROVIDER == "huggingface":
-            try:
-                return generate_mcqs_with_huggingface(text, num_questions)
-            except:
-                logging.warning("Hugging Face failed, falling back to simple generator")
+                logging.warning("Groq failed, falling back to simple generator")
                 return generate_mcqs_simple(text, num_questions)
         else:
             # Default to simple generator (FREE)
@@ -342,7 +299,7 @@ def generate_mcqs_from_text(text: str, num_questions: int = 5) -> List[Dict]:
 
 
 def process_pdf_and_generate_mcqs(
-    pdf_file: UploadFile, num_questions: int = 5
+        pdf_file: UploadFile, num_questions: int = 5
 ) -> List[Dict]:
     """Main function to process PDF and generate MCQs"""
     try:
@@ -358,3 +315,58 @@ def process_pdf_and_generate_mcqs(
     except Exception as e:
         logging.error(f"Error processing PDF: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to process PDF: {str(e)}")
+
+
+def parse_groq_output(text: str):
+    """Parse Groq output format into MCQ list."""
+    questions = []
+
+    # Split on ## MCQ pattern
+    blocks = re.split(r'##\s*MCQ\s*\d+', text.strip())
+
+    for block in blocks:
+        if not block.strip():
+            continue
+
+        lines = [ln.strip() for ln in block.split('\n') if ln.strip()]
+        if len(lines) < 6:
+            continue
+
+        # Find question line
+        question_text = ""
+        options = {}
+        correct_answer = ""
+
+        for line in lines:
+            if line.startswith("Question:"):
+                question_text = line.replace("Question:", "").strip()
+            elif re.match(r'^[ABCD]\)', line):
+                label = line[0]
+                option_text = line[3:].strip()
+                options[label] = option_text
+            elif line.startswith("Correct Answer:"):
+                # Extract the letter from "Correct Answer: B) ..." or "Correct Answer: B"
+                correct_match = re.search(r'Correct Answer:\s*([ABCD])', line)
+                if correct_match:
+                    correct_answer = correct_match.group(1)
+                else:
+                    # Try to extract from "B) ..." format
+                    correct_match = re.search(r'Correct Answer:\s*([ABCD])\)', line)
+                    if correct_match:
+                        correct_answer = correct_match.group(1)
+
+        # Validate we have all components
+        if question_text and len(options) == 4 and correct_answer:
+            answers = []
+            for label in ['A', 'B', 'C', 'D']:
+                answers.append({
+                    "answer_text": options[label],
+                    "is_correct": (label == correct_answer)
+                })
+
+            questions.append({
+                "question_text": question_text,
+                "answers": answers
+            })
+
+    return questions
