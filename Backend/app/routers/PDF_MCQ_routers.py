@@ -15,7 +15,7 @@ from ..utils.validation import (
 from datetime import datetime
 import logging
 import json
-from .rate_limiter import limiter
+from ..rate_limiter import limiter
 
 router = APIRouter(prefix="/PDF_MCQ", tags=["PDF MCQ Generator"])
 

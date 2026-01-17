@@ -7,7 +7,7 @@ from ..services.Answer_Services import (
     delete_answer,
 )
 from ..utils.validation import validate_answer_text
-from .rate_limiter import limiter
+from ..rate_limiter import limiter
 
 router = APIRouter(prefix="/Answers", tags=["Answers"])
 
