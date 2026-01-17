@@ -1,0 +1,52 @@
+services:
+  # FastAPI Backend
+  - type: web
+    name: quiz-backend
+    env: python
+    plan: free
+    buildCommand: "pip install -r Backend/requirements.txt"
+    startCommand: "uvicorn Backend.app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: CORS_ORIGINS
+        value: https://quiz-app-react-fastapi.onrender.com
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: JWT_EXPIRES_MINUTES
+        value: "60"
+      - key: ALGORITHM
+        value: HS256
+      - key: DB_MIN_CONNECTIONS
+        value: "1"
+      - key: DB_MAX_CONNECTIONS
+        value: "10"
+    healthCheckPath: /
+    
+  # React Frontend
+  - type: web
+    name: quiz-frontend
+    env: static
+    plan: free
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://quiz-app-react-fastapi.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+databases:
+  # PostgreSQL Database
+  - name: quiz-db
+    databaseName: quizapp
+    user: quizapp_user
+    plan: free
+    region: oregon
+    ipAllowList: []  # Allow all IPs for development (restrict in production)
