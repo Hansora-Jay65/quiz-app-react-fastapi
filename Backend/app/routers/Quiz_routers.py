@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Request
-from app.models.Quiz_Model import QuizBase
-from app.services.Quiz_Services import (
+from ..models.Quiz_Model import QuizBase
+from ..services.Quiz_Services import (
     create_quiz,
     get_quiz,
     get_quizzes,
     edit_quiz,
     delete_quiz,
 )
-from app.utils.validation import sanitize_quiz_title, sanitize_creator_name
-from app.rate_limiter import limiter
+from ..utils.validation import sanitize_quiz_title, sanitize_creator_name
+from ..rate_limiter import limiter
 
 router = APIRouter(prefix="/Quizzes", tags=["Quizzes"])
 

@@ -1,12 +1,12 @@
 from typing import List
 from fastapi import APIRouter, Request
-from app.models.Question_Model import (
+from ..models.Question_Model import (
     QuestionAndAnswerModel,
     QuestionBase,
     UpdateQuestionBase,
 )
 
-from app.services.Question_Services import (
+from ..services.Question_Services import (
     get_question_by_id,
     get_question_by_quiz,
     get_quiz_questions,
@@ -14,8 +14,8 @@ from app.services.Question_Services import (
     edit_question,
     delete_question,
 )
-from app.utils.validation import validate_question_text
-from app.rate_limiter import limiter
+from ..utils.validation import validate_question_text
+from ..rate_limiter import limiter
 
 router = APIRouter(prefix="/Questions", tags=["Questions"])
 

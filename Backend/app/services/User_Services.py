@@ -1,11 +1,11 @@
 from pydantic import EmailStr
-from app.models.User_Model import User, UserLogin
-from app.database import get_db_connection
+from ..models.User_Model import User, UserLogin
+from ..database import get_db_connection
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 import psycopg2.extras
 import logging
-from app.configAndAuth import get_password_hash, verify_password
+from ..configAndAuth import get_password_hash, verify_password
 
 
 def create_user(user: User):

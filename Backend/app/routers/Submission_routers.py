@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Request
-from app.models.Submission_Model import SubmissionBase
-from app.services.Submission_Services import (
+from ..models.Submission_Model import SubmissionBase
+from ..services.Submission_Services import (
     get_leaderboard_by_quiz,
     get_submission_by_user,
     create_submission,
     get_quiz_statistics,
 )
-from app.rate_limiter import limiter
+from ..rate_limiter import limiter
 
 router = APIRouter(prefix="/Submissions", tags=["Submissions"])
 

@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2 import pool
 from contextlib import contextmanager
-from app.config import (
+from .config import (
     DB_NAME,
     DB_USER,
     DB_PASSWORD,

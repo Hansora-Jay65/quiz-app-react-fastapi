@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Request
-from app.models.Answer_Model import AnswerBase, UpdateAnswer
-from app.services.Answer_Services import (
+from ..models.Answer_Model import AnswerBase, UpdateAnswer
+from ..services.Answer_Services import (
     create_answer,
     get_all_answers_by_question,
     update_answer_of_question,
     delete_answer,
 )
-from app.utils.validation import validate_answer_text
-from app.rate_limiter import limiter
+from ..utils.validation import validate_answer_text
+from ..rate_limiter import limiter
 
 router = APIRouter(prefix="/Answers", tags=["Answers"])
 

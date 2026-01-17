@@ -1,6 +1,6 @@
 import logging
-from app.models.Submission_Model import SubmissionBase
-from app.database import get_db_connection
+from ..models.Submission_Model import SubmissionBase
+from ..database import get_db_connection
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 

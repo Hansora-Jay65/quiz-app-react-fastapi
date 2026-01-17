@@ -1,11 +1,11 @@
-from app.configAndAuth import authenticate_user, create_access_token
-from app.services.User_Services import get_user, create_user
-from app.utils.validation import validate_email, validate_password_strength
+from ..configAndAuth import authenticate_user, create_access_token
+from ..services.User_Services import get_user, create_user
+from ..utils.validation import validate_email, validate_password_strength
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, HTTPException, Request
-from app.models.User_Model import User
+from ..models.User_Model import User
 from datetime import timedelta
-from app.rate_limiter import limiter
+from ..rate_limiter import limiter
 
 router = APIRouter(prefix="/Users", tags=["Users"])
 

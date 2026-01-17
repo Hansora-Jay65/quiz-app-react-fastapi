@@ -1,6 +1,6 @@
 import logging
-from app.models.Question_Model import QuestionBase, UpdateQuestionBase
-from app.database import get_db_connection
+from ..models.Question_Model import QuestionBase, UpdateQuestionBase
+from ..database import get_db_connection
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 

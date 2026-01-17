@@ -1,12 +1,12 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Request
-from app.services.PDF_MCQ_Services import process_pdf_and_generate_mcqs
-from app.services.Quiz_Services import create_quiz
-from app.services.Question_Services import create_question
-from app.services.Answer_Services import create_answer
-from app.models.Quiz_Model import QuizBase
-from app.models.Question_Model import QuestionBase
-from app.models.Answer_Model import AnswerBase
-from app.utils.validation import (
+from ..services.PDF_MCQ_Services import process_pdf_and_generate_mcqs
+from ..services.Quiz_Services import create_quiz
+from ..services.Question_Services import create_question
+from ..services.Answer_Services import create_answer
+from ..models.Quiz_Model import QuizBase
+from ..models.Question_Model import QuestionBase
+from ..models.Answer_Model import AnswerBase
+from ..utils.validation import (
     validate_pdf_file,
     validate_num_questions,
     sanitize_quiz_title,
@@ -15,7 +15,7 @@ from app.utils.validation import (
 from datetime import datetime
 import logging
 import json
-from app.rate_limiter import limiter
+from ..rate_limiter import limiter
 
 router = APIRouter(prefix="/PDF_MCQ", tags=["PDF MCQ Generator"])
 

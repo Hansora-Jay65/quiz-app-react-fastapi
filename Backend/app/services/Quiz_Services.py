@@ -1,6 +1,6 @@
 import logging
-from app.models.Quiz_Model import QuizBase
-from app.database import get_db_connection
+from ..models.Quiz_Model import QuizBase
+from ..database import get_db_connection
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 
