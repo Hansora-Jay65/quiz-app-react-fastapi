@@ -1,22 +1,14 @@
 services:
-  # PostgreSQL Database
-  - type: postgres
-    name: quiz-db
-    databaseName: quizapp
-    user: quizuser
-    
   # FastAPI Backend
   - type: web
     name: quiz-backend
     env: python
     plan: free
     buildCommand: "pip install -r Desktop/React+Fast APi/Backend/requirements.txt"
-    startCommand: "uvicorn Desktop/React+Fast APi/Backend/app.main:app --host 0.0.0.0 --port $PORT"
+    startCommand: "uvicorn Desktop/React+Fast APi/Backend.app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: quiz-db
-          property: connectionString
+        sync: false
       - key: ENVIRONMENT
         value: production
       - key: CORS_ORIGINS
