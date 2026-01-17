@@ -1,4 +1,21 @@
 services:
+  # React Frontend (Primary service)
+  - type: web
+    name: quiz-app-react-fastapi
+    env: static
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://quiz-backend.onrender.com
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://quiz-backend.onrender.com/api/:splat
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
   # FastAPI Backend
   - type: web
     name: quiz-backend
@@ -25,20 +42,6 @@ services:
       - key: DB_MAX_CONNECTIONS
         value: "10"
     healthCheckPath: /
-    
-  # React Frontend
-  - type: web
-    name: quiz-frontend
-    env: static
-    buildCommand: "cd frontend && npm install && npm run build"
-    staticPublishPath: frontend/dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://quiz-backend.onrender.com
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
 
 databases:
   # PostgreSQL Database
