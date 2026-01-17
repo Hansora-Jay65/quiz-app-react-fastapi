@@ -93,7 +93,7 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
-app.include_router(User_routers.router, prefix="/Users", tags=["Users"])
+app.include_router(User_routers.router, tags=["Users"])
 app.include_router(
     Submission_routers.router, prefix="/Submissions", tags=["Submissions"]
 )
@@ -102,8 +102,6 @@ app.include_router(Quiz_routers.router, prefix="/Quizzes", tags=["Quizzes"])
 app.include_router(Answer_routers.router, prefix="/Answers", tags=["Answers"])
 app.include_router(PDF_MCQ_routers.router, tags=["PDF MCQ Generator"])
 
-app.get("/")
-
-
+@app.get("/")
 def home():
-    return {"Message": "wellcome Quiz App"}
+    return {"Message": "Welcome to Quiz App API"}

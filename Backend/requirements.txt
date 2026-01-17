@@ -11,3 +11,5 @@ passlib[bcrypt]
 python-dotenv
 slowapi
 bleach
+pydantic[email]
+langchain-groq

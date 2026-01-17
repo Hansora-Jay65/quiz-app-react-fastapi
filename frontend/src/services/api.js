@@ -8,7 +8,7 @@ export const getAllQuizzes = () => API.get("/Quizzes/Quizzes/getQuizzes");
 
 export const existUser = (email, password) =>
   API.post(
-    "Users/Users/login",
+    "Users/login",
     new URLSearchParams({
       username: email,
       password: password,
@@ -16,7 +16,7 @@ export const existUser = (email, password) =>
   );
 
 export const createUser = (email, password) =>
-  API.post("Users/Users/createUser", {
+  API.post("Users/createUser", {
     user_email: email,
     hashed_password: password,
   });

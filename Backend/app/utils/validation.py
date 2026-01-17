@@ -90,6 +90,7 @@ def validate_password_strength(password: str) -> str:
     - At least one uppercase letter
     - At least one lowercase letter
     - At least one number
+    - Maximum 72 bytes (bcrypt limitation)
     """
     if not password:
         raise HTTPException(status_code=400, detail="Password is required")
@@ -97,6 +98,14 @@ def validate_password_strength(password: str) -> str:
     if len(password) < 8:
         raise HTTPException(
             status_code=400, detail="Password must be at least 8 characters long"
+        )
+
+    # Check bcrypt 72-byte limit
+    password_bytes = password.encode('utf-8')
+    if len(password_bytes) > 72:
+        raise HTTPException(
+            status_code=400, 
+            detail="Password is too long (maximum 72 bytes for bcrypt compatibility)"
         )
 
     if len(password) > 128:

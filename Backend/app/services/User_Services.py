@@ -5,10 +5,7 @@ from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 import psycopg2.extras
 import logging
-from passlib.context import CryptContext
-
-# Password hashing context
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+from app.configAndAuth import get_password_hash, verify_password
 
 
 def create_user(user: User):
@@ -17,7 +14,7 @@ def create_user(user: User):
             cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
             # Hash the password before saving
-            hashed_pw = pwd_context.hash(user.hashed_password)
+            hashed_pw = get_password_hash(user.hashed_password)
 
             cur.execute(
                 "INSERT INTO users(user_email, hashed_password, created_at) VALUES(%s, %s, %s)",
@@ -65,7 +62,7 @@ def check_UserExist_in_db(user: UserLogin):
             stored_hashed_pw = row["hashed_password"]
 
             # Verify hashed password
-            if pwd_context.verify(user.password, stored_hashed_pw):
+            if verify_password(user.password, stored_hashed_pw):
                 return {"Exist": True, "user": row}
             else:
                 return {"Exist": False}
