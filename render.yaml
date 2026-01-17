@@ -34,7 +34,7 @@ services:
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_URL
-        value: https://quiz-app-react-fastapi.onrender.com
+        value: https://quiz-backend.onrender.com
     routes:
       - type: rewrite
         source: /*
