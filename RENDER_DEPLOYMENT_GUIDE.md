@@ -39,7 +39,7 @@ Add these environment variables in your Render dashboard:
 2. Name: `quiz-db`
 3. Database Name: `quizapp`
 4. User: `quizapp_user`
-5. Plan: Free
+5. Plan: Starter
 6. Region: Oregon (or closest to you)
 7. Click "Create Database"
 
