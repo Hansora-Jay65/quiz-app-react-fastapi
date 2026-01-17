@@ -4,8 +4,8 @@ services:
     name: quiz-backend
     env: python
     plan: free
-    buildCommand: "pip install -r \"Desktop/React+Fast APi/Backend/requirements.txt\""
-    startCommand: "uvicorn \"Desktop.React+Fast APi.Backend.app.main:app\" --host 0.0.0.0 --port $PORT"
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: DATABASE_URL
         sync: false
@@ -26,8 +26,8 @@ services:
     name: quiz-frontend
     env: static
     plan: free
-    buildCommand: "cd \"Desktop/React+Fast APi/frontend\" && npm install && npm run build"
-    staticPublishPath: "Desktop/React+Fast APi/frontend/dist"
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_URL
         value: https://your-backend-url.onrender.com
