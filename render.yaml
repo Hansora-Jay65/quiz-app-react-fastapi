@@ -1,10 +1,9 @@
 services:
-  # React Frontend (Primary service)
-  - type: web
+  # React Frontend (STATIC SITE)
+  - type: static_site
     name: quiz-app-react-fastapi
-    runtime: node
     buildCommand: "cd frontend && npm install && npm run build"
-    startCommand: "cd frontend && npm install && npm run build && npx serve -s dist -l 10000"
+    publishDir: "frontend/dist"
     envVars:
       - key: VITE_API_URL
         value: https://quiz-backend.onrender.com
@@ -12,7 +11,7 @@ services:
   # FastAPI Backend
   - type: web
     name: quiz-backend
-    env: python
+    runtime: python
     buildCommand: "cd Backend && pip install -r requirements.txt"
     startCommand: "uvicorn Backend.app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
@@ -37,9 +36,8 @@ services:
     healthCheckPath: /
 
 databases:
-  # PostgreSQL Database
   - name: quiz-db
     databaseName: quizapp
     user: quizapp_user
     region: oregon
-    ipAllowList: []  # Allow all IPs for development (restrict in production)
+    ipAllowList: []
