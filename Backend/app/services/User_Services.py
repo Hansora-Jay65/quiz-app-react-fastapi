@@ -17,7 +17,7 @@ def create_user(user: User):
             hashed_pw = get_password_hash(user.hashed_password)
 
             cur.execute(
-                "INSERT INTO users(user_email, hashed_password, created_at) VALUES(%s, %s, %s)",
+                "INSERT INTO users(user_email, hashed_password, created_at) VALUES(%s, %s, %s) RETURNING user_id, user_email, created_at",
                 (
                     user.user_email,
                     hashed_pw,
@@ -26,9 +26,10 @@ def create_user(user: User):
             )
 
             conn.commit()
+            result = cur.fetchone()
             cur.close()
 
-        return JSONResponse(status_code=201, content={"User": "User Created"})
+        return JSONResponse(status_code=201, content=result)
 
     except Exception as e:
         logging.error(e)

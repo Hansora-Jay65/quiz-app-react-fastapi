@@ -93,7 +93,7 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
-app.include_router(User_routers.router, tags=["Users"])
+app.include_router(User_routers.router, prefix="/Users", tags=["Users"])
 app.include_router(
     Submission_routers.router, prefix="/Submissions", tags=["Submissions"]
 )
