@@ -13,8 +13,9 @@ def create_user(user: User):
         with get_db_connection() as conn:
             cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-            # Hash the password before saving
-            hashed_pw = get_password_hash(user.hashed_password)
+            # Hash the password before saving (truncate if too long)
+            password = user.hashed_password[:72]  # bcrypt max 72 bytes
+            hashed_pw = get_password_hash(password)
 
             cur.execute(
                 "INSERT INTO users(user_email, hashed_password, created_at) VALUES(%s, %s, %s) RETURNING user_id, user_email, created_at",

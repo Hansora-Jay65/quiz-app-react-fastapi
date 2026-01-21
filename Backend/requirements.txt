@@ -7,9 +7,10 @@ PyPDF2
 openai
 requests
 python-jose[cryptography]
-passlib[bcrypt]
+passlib[bcrypt]==1.7.4
 python-dotenv
 slowapi
 bleach
 pydantic[email]
 langchain-groq
+bcrypt==4.2.0
