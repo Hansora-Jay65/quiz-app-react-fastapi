@@ -52,6 +52,7 @@ def get_db_connection():
 try:
     with get_db_connection() as conn:
         if DATABASE_URL:
+            print(f"✅ Successfully connected to database: {DB_NAME}")
             print(f"✅ Successfully connected to Render PostgreSQL database")
         else:
             print(f"✅ Successfully connected to database: {DB_NAME}")
