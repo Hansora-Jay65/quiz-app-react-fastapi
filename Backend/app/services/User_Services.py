@@ -5,6 +5,7 @@ from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 import psycopg2.extras
 import logging
+from datetime import datetime
 from ..configAndAuth import get_password_hash, verify_password
 
 
@@ -17,18 +18,34 @@ def create_user(user: User):
             password = user.hashed_password[:72]  # bcrypt max 72 bytes
             hashed_pw = get_password_hash(password)
 
+            # Use current timestamp for created_at to avoid client-side date issues
+            created_at = datetime.utcnow()
+
             cur.execute(
                 "INSERT INTO users(user_email, hashed_password, created_at) VALUES(%s, %s, %s) RETURNING user_id, user_email, created_at",
                 (
                     user.user_email,
                     hashed_pw,
-                    user.created_at,
+                    created_at,
                 ),
             )
 
             conn.commit()
-            result = cur.fetchone()
+            row = cur.fetchone()
             cur.close()
+
+        # Convert DB row (which may contain date/datetime) into JSON-serializable dict
+        if row is not None:
+            result = dict(row)
+            if "created_at" in result:
+                # handle both date and datetime objects
+                value = result["created_at"]
+                try:
+                    result["created_at"] = value.isoformat()
+                except AttributeError:
+                    result["created_at"] = str(value)
+        else:
+            result = {"message": "User created"}
 
         return JSONResponse(status_code=201, content=result)
 
