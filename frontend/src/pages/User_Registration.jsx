@@ -70,9 +70,14 @@ function UserRegistration() {
 
     try {
       const res = await createUser(email, password);
-      if (res.data.User === "User Created") {
+
+      // Backend now returns { user_id, user_email, created_at } with HTTP 201
+      const isSuccess =
+        res && (res.status === 201 || res.status === 200) && res.data && res.data.user_id;
+
+      if (isSuccess) {
         setMessage("✅ User registered successfully!");
-        setTimeout(() => navigate("/quizApp"), 1000);
+        setTimeout(() => navigate("/quizApp"), 2000);
       } else {
         setMessage("❌ Registration failed. Try again.");
       }
