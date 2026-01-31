@@ -8,8 +8,8 @@ function HomePage() {
   return (
     <main className="homepage">
       <div className="homepage-container">
-        <h1 className="homepage-title">Welcome to Quiz App</h1>
-        <h2 className="homepage-subtitle">Register or Sign in</h2>
+        <h1 className="homepage-title">Welcome to Brain Spark</h1>
+        <h2 className="homepage-subtitle">Create, take, and analyze smart quizzes</h2>
 
         <div className="homepage-buttons">
           <button className="btn primary" onClick={() => navigate("/register")}>
