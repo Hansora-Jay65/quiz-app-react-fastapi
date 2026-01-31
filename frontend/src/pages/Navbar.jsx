@@ -1,12 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
+import brainSparkLogo from "../assets/brain-spark-logo.png";
 
 function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/">QuizMaster</Link>
+        <Link to="/" className="navbar-brand">
+          <img
+            src={brainSparkLogo}
+            alt="Brain Spark logo"
+            className="navbar-logo-image"
+          />
+          <span className="navbar-logo-text">Brain Spark</span>
+        </Link>
       </div>
 
       <ul className="navbar-links">

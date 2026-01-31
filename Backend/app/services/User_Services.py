@@ -1,4 +1,4 @@
-from pydantic import EmailStr
+from    pydantic import EmailStr
 from ..models.User_Model import User, UserLogin
 from ..database import get_db_connection
 from fastapi import HTTPException
