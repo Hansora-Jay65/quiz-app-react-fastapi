@@ -11,6 +11,12 @@
   z-index: 1000;
 }
 
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -18,8 +24,8 @@
 }
 
 .navbar-logo-image {
-  height: 40px;
-  width: 40px;
+  height: 52px;
+  width: 52px;
   object-fit: contain;
   margin-right: 8px;
 }
@@ -50,10 +56,42 @@
   color: #ffe082; /* golden hover */
 }
 
+.navbar-auth-button {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.navbar-auth-button:hover {
+  color: #ffe082;
+}
+
+/* Hamburger toggle - hidden on desktop */
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-toggle-bar {
+  width: 20px;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     padding: 10px 16px;
   }
 
@@ -63,12 +101,23 @@
 
   .navbar-links {
     width: 100%;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
     gap: 10px;
+    margin-top: 8px;
+    display: none; /* hidden by default on mobile */
+  }
+
+  .navbar-links.open {
+    display: flex; /* show when menu is toggled */
+  }
+
+  .navbar-toggle {
+    display: flex; /* show hamburger on mobile */
   }
 
   .navbar-links li a {
-    font-size: 0.9rem;
+    font-size: 1.0rem;
     padding: 4px 0;
   }
 }

@@ -59,3 +59,30 @@
 .btn.primary:hover {
   background: #4b59a0;
 }
+
+/* Mobile responsiveness for dashboard buttons */
+@media (max-width: 768px) {
+  .dashboard-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 24px 16px;
+  }
+
+  .button-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;            /* make grid span full card width */
+  }
+
+  .btn {
+    font-size: 0.9rem; /* slightly smaller so labels fit in one line */
+    padding: 10px 8px;
+    white-space: nowrap; /* keep text like 'Update Quiz' on a single line */
+    width: 100%;          /* each button fills its grid cell */
+  }
+
+  .btn.primary {
+    grid-column: 1 / -1; /* ensure Leaderboard spans full width cleanly */
+    width: 100%;
+  }
+}

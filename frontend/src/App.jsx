@@ -8,6 +8,7 @@ import UserLogin from "./pages/User_Login";
 import HomePage from "./pages/home";
 import QuizHomePage from "./pages/Quiz_App";
 import UserRegistration from "./pages/User_Registration";
+import AboutPage from "./pages/About";
 import Question from "./pages/Question_Of_Quiz";
 import CreateQuiz from "./pages/Create_Quiz";
 import CreateQuestion from "./pages/Create_Question";
@@ -33,6 +34,7 @@ function App() {
               path="/register"
               element={<UserRegistration></UserRegistration>}
             ></Route>
+            <Route path="/about" element={<AboutPage />} />
             <Route
               path="/quizApp"
               element={<QuizHomePage></QuizHomePage>}

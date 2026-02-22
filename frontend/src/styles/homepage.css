@@ -57,3 +57,27 @@
   transform: translateY(-2px);
   opacity: 0.9;
 }
+
+@media (max-width: 768px) {
+  .homepage-container {
+    padding: 20px;
+  }
+  
+  .homepage-title {
+    font-size: 2rem;
+  }
+  
+  .homepage-subtitle {
+    font-size: 1rem;
+  }
+  
+  .homepage-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 250px;
+  }
+}
